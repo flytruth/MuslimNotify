@@ -1,4 +1,5 @@
-![MuslimNotify](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTdhc3Z2a3R3anBlZmdh0cmxnd3dmOGoyNndtMzhINmtkOCZlcD12MV9pbnRlcm5hbF9naWZfbmVZFnIfaWQmY3Q9Zw/IRw2F5na75WcD4FxZ0/giphy.gif)
+![MuslimNotify](<img width="402" height="498" alt="image" src="https://github.com/user-attachments/assets/914fd9f1-d85c-4570-a70e-675a81547b0e" />
+)
 
 
 Use the bash script for testing.
