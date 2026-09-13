@@ -1,5 +1,4 @@
-![MuslimNotify](<img width="402" height="498" alt="image" src="https://github.com/user-attachments/assets/914fd9f1-d85c-4570-a70e-675a81547b0e" />
-)
+![Muslim Notify Logo](https://gemini.google.com/16576e03-c716-48f9-82b5-61c866f86808)
 
 
 Use the bash script for testing.
