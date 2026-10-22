@@ -1,0 +1,8 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/adhan">
+        <file alias="adhan_mishary_style.mp3">../assets/adhan/adhan_mishary_style.mp3</file>
+        <file alias="adhan_abdulfattah.mp3">../assets/adhan/adhan_abdulfattah.mp3</file>
+        <file alias="adhan_lms.mp3">../assets/adhan/adhan_lms.mp3</file>
+    </qresource>
+</RCC>

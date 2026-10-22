@@ -1,0 +1,24 @@
+# Rust
+/target/
+**/*.rs.bk
+
+# CMake / C++
+cpp/build/
+cpp/build-*/
+build/
+*.o
+*.obj
+
+# Qt
+moc_*.cpp
+qrc_*.cpp
+*.user
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Verification artifacts
+shot_*.png

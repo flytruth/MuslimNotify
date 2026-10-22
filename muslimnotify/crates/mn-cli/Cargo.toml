@@ -1,0 +1,15 @@
+[package]
+name = "mn-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Headless CLI to print prayer times - verification and scripting tool"
+authors.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "mn-cli"
+path = "src/main.rs"
+
+[dependencies]
+mn-core = { path = "../mn-core" }

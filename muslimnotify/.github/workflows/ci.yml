@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  linux:
+    name: Linux build + tests + smoke
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Qt 6 and build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            qt6-base-dev libgl1-mesa-dev cmake ninja-build
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: linux-cargo-${{ hashFiles('Cargo.lock', 'crates/*/Cargo.toml') }}
+
+      - name: Rust unit tests
+        run: cargo test --release
+
+      - name: CLI smoke test (Makkah, Umm al-Qura)
+        run: |
+          out=$(cargo run -q -p mn-cli -- --lat 21.4225 --lng 39.8262 --method 3 --tz 10800 --city Makkah)
+          echo "$out"
+          echo "$out" | grep -q "Fajr" || { echo "CLI output missing Fajr"; exit 1; }
+
+      - name: Build Qt frontend
+        run: |
+          cmake -B cpp/build -S cpp -DCMAKE_PREFIX_PATH="$(qmake6 -query QT_INSTALL_PREFIX)" \
+                -DCMAKE_BUILD_TYPE=Release -G Ninja
+          cmake --build cpp/build -j"$(nproc)"
+
+      - name: GUI smoke test (offscreen screenshot + alarm simulation)
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: |
+          ./cpp/build/muslimnotify --screenshot /tmp/mn.png
+          file /tmp/mn.png | grep -q PNG
+          ./cpp/build/muslimnotify --simulate=00:00:00 --screenshot /tmp/mn2.png
+
+      - name: Upload screenshot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: muslimnotify-screenshot
+          path: /tmp/mn.png
+
+  macos:
+    name: macOS build
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install Qt
+        run: brew install qt cmake
+      - name: Build
+        run: ./scripts/build.sh
+      - name: CLI smoke test
+        run: cargo run -q -p mn-cli -- --lat 21.4225 --lng 39.8262 --method 3 --tz 10800 --city Makkah
+
+  windows:
+    name: Windows build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install Qt
+        run: pip install aqtinstall && aqt install-qt windows desktop 6.7.3 win64_msvc2019_64 -O "D:\Qt"
+      - name: Build
+        env:
+          QT_PATH: "D:\\Qt\\6.7.3\\msvc2019_64"
+        shell: pwsh
+        run: .\scripts\build-windows.ps1
+      - name: CLI smoke test
+        run: cargo run -q -p mn-cli -- --lat 21.4225 --lng 39.8262 --method 3 --tz 10800 --city Makkah
