@@ -13,7 +13,6 @@ extern "C" {
 
 #define MN_NO_TIME (-1LL)
 
-/* Slot order used by every array-based API. */
 #define MN_FAJR 0
 #define MN_SUNRISE 1
 #define MN_DHUHR 2
@@ -23,7 +22,7 @@ extern "C" {
 #define MN_PRAYER_COUNT 6
 
 #ifdef __cplusplus
-} /* extern "C" */
+}
 #endif
 
-#endif /* MUSLIMNOTIFY_H */
+#endif 
