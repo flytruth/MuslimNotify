@@ -22,9 +22,3 @@ dependencies = [
  "adhan",
 ]
 
-[[package]]
-name = "mn-ffi"
-version = "1.0.0"
-dependencies = [
- "mn-core",
-]
