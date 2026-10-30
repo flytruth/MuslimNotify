@@ -1,3 +1,5 @@
+# BETA VERSION (NOT FULLY WORKING)
+
 <div align="center">
 
 # 🕌 MuslimNotify
